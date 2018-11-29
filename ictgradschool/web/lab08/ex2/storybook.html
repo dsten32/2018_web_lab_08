@@ -61,50 +61,102 @@
 
             // This function will control what happens then we want to load the previous page
             function previous_page() {
+
                 /* TODO: If the `current_page_info` object contains a link to the
                  * previous page, call the `load_page` function with that URL */
+                console.log("left page turn");
+                if(current_page_info.previous_page!==undefined){
+                load_page(current_page_info.previous_page);
+                }
+                // console.log(current_page_info.next_page.substring(36));
+                // var ind=current_page_info.next_page.indexOf("=");
+                // console.log(current_page_info.next_page.substring(ind+1,0));
+                // if(current_page_info.next_page.substring(36)!=="1"){
+                //     load_page(current_page_info.next_page.substring(ind+1,0)+current_page_info.page_number-1);
+                // };
+
             }
 
             // This function will control what happens then we want to load the next page
             function next_page() {
-                /* TODO: If the `current_page_info` object contains a link to the
+                /* TODOne: If the `current_page_info` object contains a link to the
                  * next page, call the `load_page` function with that URL */
+                console.log("right page turn");
+                if(current_page_info.next_page!==undefined) {
+                    load_page(current_page_info.next_page);
+                }
             }
 
             function load_page(page_url) {
                 /* TODO: In an ajax call, GET the URL provided in the `page_url`
-                 * parameter
-                 *
-                 * TODO: Update the `current_page_info` variable with the object
-                 * received from the request
-                 *
-                 * TODO: Update the `current-page` span with the page number of the
+                 * parameter */
+                console.log(page_url);
+                $.ajax({
+                    url:page_url,
+                    type:'GET',
+                    success:function (msg) {
+                        current_page_info=msg;
+                        console.log(current_page_info.page_number);
+                        $('#current-page').text(current_page_info.page_number);
+                        $('#page-right').html(current_page_info.content);
+                        $('#page-left').empty();
+                        $('#page-left').append("<img src="+current_page_info.image+">");
+                    }
+                })
+
+                /* TODOne: Update the `current_page_info` variable with the object
+                * received from the request
+                */
+
+                 /* TODOne: Update the `current-page` span with the page number of the
                  * currently displayed page. HINT: There is a value in the returned object that
                  * tells you this
-                 *
-                 * TODO: Replace the current contents of the right-hand page div with
+                 */
+                 
+                 /* TODOne: Replace the current contents of the right-hand page div with
                  * the content provided in the  returned object
-                 *
-                 * TODO: Use jquery to create a new img element, and set its src attribute
+                 */
+                 
+                 /* TODOne: Use jquery to create a new img element, and set its src attribute
                  * to the image URL provided in the response. Replace the contents of the left-hand
                  * page with this new img */
             }
 
             $(document).ready(function() {
-                /* TODO: Add jquery code that calls the `previous_page` function when the
+                /* TODOne: Add jquery code that calls the `previous_page` function when the
                  * `turn-left` div is clicked */
+                $('#turn-left').on('click',function () {
+                    previous_page();
+                })
 
-                /* TODO: Add jquery code that calls the `next_page` function when the
+                /* TODOne: Add jquery code that calls the `next_page` function when the
                  * `turn-right` div is clicked */
+                $('#turn-right').on('click',function () {
+                    next_page();
+                })
 
-                /* TODO: In an ajax call, GET the `story` endpoint with no arguments.
-                 * The response will be an array of URLs
-                 *
-                 * TODO: The number of elements in this array tells you the number of pages
-                 * in the book. Use this information to update the value in the `total-page` span
-                 *
-                 * TODO: Call the `load_page` function with the first url in the array to
+                /* TODOne: In an ajax call, GET the `story` endpoint with no arguments.
+                 * The response will be an array of URLs */
+                $.ajax({
+                    url: 'https://sporadic.nz/ajax/story',
+                    type: 'GET',
+                    success: function (msg) {
+                        // console.log("Received: " + JSON.stringify(msg));
+                        // console.log(msg.length);
+                        $('#total-page').text(msg.length);
+                        load_page("https://sporadic.nz/ajax/story?page=1");
+
+                    }
+                })
+
+
+                /*
+                /* TODO: The number of elements in this array tells you the number of pages
+                * in the book. Use this information to update the value in the `total-page` span */
+
+                 /* TODO: Call the `load_page` function with the first url in the array to
                  * load the first page of the book */
+
             });
         </script>
     </head>
