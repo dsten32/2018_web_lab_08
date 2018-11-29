@@ -80,6 +80,10 @@
         <script type="text/javascript" src="../lib/jquery-3.3.1.js"></script>
         <script type="text/javascript">
             $(document).ready(function() {
+
+                $('#article-load-button').on('click',function () {
+                    load_more_articles();
+                })
                 /* Retrieve details about an author and their likes from appropriate endpoints and
                  * display that data in the user details panel */
                 function load_author_details() {

@@ -62,7 +62,7 @@
             // This function will control what happens then we want to load the previous page
             function previous_page() {
 
-                /* TODO: If the `current_page_info` object contains a link to the
+                /* TODOne: If the `current_page_info` object contains a link to the
                  * previous page, call the `load_page` function with that URL */
                 console.log("left page turn");
                 if(current_page_info.previous_page!==undefined){
@@ -88,7 +88,7 @@
             }
 
             function load_page(page_url) {
-                /* TODO: In an ajax call, GET the URL provided in the `page_url`
+                /* TODOne: In an ajax call, GET the URL provided in the `page_url`
                  * parameter */
                 console.log(page_url);
                 $.ajax({
@@ -129,9 +129,17 @@
                     previous_page();
                 })
 
+                $('#page-left').on('click',function () {
+                    previous_page();
+                })
+
                 /* TODOne: Add jquery code that calls the `next_page` function when the
                  * `turn-right` div is clicked */
                 $('#turn-right').on('click',function () {
+                    next_page();
+                })
+
+                $('#page-right').on('click',function () {
                     next_page();
                 })
 
@@ -151,10 +159,10 @@
 
 
                 /*
-                /* TODO: The number of elements in this array tells you the number of pages
+                /* TODOne: The number of elements in this array tells you the number of pages
                 * in the book. Use this information to update the value in the `total-page` span */
 
-                 /* TODO: Call the `load_page` function with the first url in the array to
+                 /* TODOne: Call the `load_page` function with the first url in the array to
                  * load the first page of the book */
 
             });
