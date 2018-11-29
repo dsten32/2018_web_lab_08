@@ -81,9 +81,7 @@
         <script type="text/javascript">
             $(document).ready(function() {
 
-                $('#article-load-button').on('click',function () {
-                    load_more_articles();
-                })
+                $('#article-load-button').click(load_more_articles);
                 /* Retrieve details about an author and their likes from appropriate endpoints and
                  * display that data in the user details panel */
                 function load_author_details() {
@@ -197,9 +195,8 @@
                             // TODO: Remember to update any necessary variables
                         }
                     });
-                    $('#article-load-button').on('click',function () {
-                        load_more_articles();
-                    })
+                    $('#article-load-button').click(load_more_articles);
+
                 }
 
                 /* TODO: Add jquery code that calls the `load_more_articles` function when the
