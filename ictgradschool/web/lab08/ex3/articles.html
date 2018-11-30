@@ -179,7 +179,7 @@
                         url: 'https://sporadic.nz/ajax/articles',
                         type: 'GET',
                         data: {
-                            /* TODO: Extract these values to variables that will allow loading
+                            /* TODOne: Extract these values to variables that will allow loading
                              * new articles rather than the same ones repeatedly */
                             from: loadFrom,
                             count: 2
@@ -191,17 +191,25 @@
                                 loadFrom+=1;
                             }
 
+                            console.log(loadFrom+" "+msg.length);
                             /* TODO: If there are no more articles to load, disable the
                              * `article-load-button` behaviour, and change its color to red */
-
-                            // TODO: Remember to update any necessary variables
+                            if (msg.length<2) {
+                                $('#article-load-button').off('click');
+                                $('.article-load').css("background-color","red").text('No more articles to Load!');
+                            }
+                            // else {
+                                //
+                            // }
+                            // TODOne: Remember to update any necessary variables
                         }
+
                     });
                     $('#article-load-button').click(load_more_articles);
 
                 }
 
-                /* TODO: Add jquery code that calls the `load_more_articles` function when the
+                /* TODOne: Add jquery code that calls the `load_more_articles` function when the
                  * `article-load-button` div is clicked */
 
                 // Do an initial load
