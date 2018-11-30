@@ -170,6 +170,7 @@
                      * author, and update the h4 to contain this information */
                 }
 
+                var loadFrom=0;
                 /* Load the next batch of articles into the page */
                 function load_more_articles() {
                     $('#article-load-button').off('click');
@@ -180,13 +181,14 @@
                         data: {
                             /* TODO: Extract these values to variables that will allow loading
                              * new articles rather than the same ones repeatedly */
-                            from: 0,
+                            from: loadFrom,
                             count: 2
                         },
                         success: function(msg) {
                             // Load each article into the page
                             for (let i = 0; i < msg.length; i++) {
                                 insert_article_into_page(msg[i]);
+                                loadFrom+=1;
                             }
 
                             /* TODO: If there are no more articles to load, disable the
