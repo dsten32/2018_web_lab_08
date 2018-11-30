@@ -1,4 +1,5 @@
 <!DOCTYPE html>
+<!--suppress ALL -->
 <html lang="en">
     <head>
         <meta charset="UTF-8">
@@ -56,6 +57,8 @@
         </style>
         <script type="text/javascript" src="../lib/jquery-3.3.1.js"></script>
         <script type="text/javascript">
+
+
             // Use this variable to hold the endpoint response for the current page
             var current_page_info;
 
@@ -127,21 +130,21 @@
                  * `turn-left` div is clicked */
                 $('#turn-left').on('click',function () {
                     previous_page();
-                })
+                });
 
                 $('#page-left').on('click',function () {
                     previous_page();
-                })
+                });
 
                 /* TODOne: Add jquery code that calls the `next_page` function when the
                  * `turn-right` div is clicked */
                 $('#turn-right').on('click',function () {
                     next_page();
-                })
+                });
 
                 $('#page-right').on('click',function () {
                     next_page();
-                })
+                });
 
                 /* TODOne: In an ajax call, GET the `story` endpoint with no arguments.
                  * The response will be an array of URLs */
