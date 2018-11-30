@@ -1,9 +1,6 @@
 $(document).ready(function () {
-    // TODO: Your code here
-//     var rButtons = $(':radio');
-// rButtons.change(function () {
+    // TODOne: Your code here
 
-// })
 
 
     $(":radio").on("click", function () {

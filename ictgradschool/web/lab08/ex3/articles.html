@@ -85,12 +85,53 @@
                 /* Retrieve details about an author and their likes from appropriate endpoints and
                  * display that data in the user details panel */
                 function load_author_details() {
-                    /* TODO: Retrieve the `author_id` attribute from the clicked element
+                    /* TODOne: Retrieve the `author_id` attribute from the clicked element
                      * and store the value in a variable */
+                    let author_info =$(this).attr('author_id');
+                    console.log(author_info);
 
                     /* TODO: Using the users endpoint, retrieve the details of the selected
                      * user and update the elements inside the `user-details` div. Make sure to
                      * translate the F|M gender codes to the literal strings "Female" and "Male" */
+                    var full_author_info;
+                    $.ajax({
+                        url:'https://sporadic.nz/ajax/users?id='+author_info,
+                        type:'GET',
+                        success:function (msg) {
+                            full_author_info=msg;
+                            // console.log(author_info.first_name);
+                            $('#user-details-first-name').text(full_author_info.first_name);
+                            $('#user-details-last-name').text(full_author_info.last_name);
+                            if (full_author_info.gender==="F") {
+                                $('#user-details-gender').text('Female');
+                            }else{
+                                $('#user-details-gender').text('Male');
+                            }
+                            $('#user-details-liked-articles').empty();
+                            var liked_arr;
+                            var article_list;
+                            $.ajax({
+                                url:'https://sporadic.nz/ajax/likes?user='+author_info,
+                                type:'GET',
+                                success:function (msg) {
+                                    liked_arr=msg;
+                                    console.log(liked_arr);
+                                    $.ajax({
+                                        url:'https://sporadic.nz/ajax/articles',
+                                        type:'GET',
+                                        success:function (msg) {
+                                            article_list=msg;
+                                            let article_list_item = $('<li>').text(article_list.title);
+                                        }
+                                    })
+                                    for (var i=0;i<liked_arr.length;i++){
+                                        // console.log(article_info.+liked_arr[i]);
+                                    }
+                                }
+                            })
+
+                        }
+                    })
 
                     /* TODO: Retrieve a list of liked articles from the likes endpoint. Using
                      * the ids retrieved, make further calls to the articles endpoint to retrieve
@@ -173,7 +214,7 @@
                     article_read_more.addClass('article-read-more');
                     article_read_more.addClass('button');
                     article_read_more.attr('article_id',article.id);
-                    /* TODO: Add a new attribute named `article_id` that contains the id of
+                    /* TODOne: Add a new attribute named `article_id` that contains the id of
                      * the  displayed article */
 
                     // Nest all the elements inside the main article div
@@ -181,7 +222,7 @@
                     article_div.append(article_author);
                     article_div.append(article_body);
                     article_div.append(article_read_more);
-                    /* TODO: Add the author details and read more button elements to the
+                    /* TODOne: Add the author details and read more button elements to the
                      * `article_div` in the correct order */
 
                     // Insert the article at the bottom of the page, above the 'load more articles' button
@@ -191,7 +232,7 @@
                     clear_and_register_article_handlers();
 
 
-                    /* TODO: Use the users endpoint to retrieve the full name of the article
+                    /* TODOne: Use the users endpoint to retrieve the full name of the article
                      * author, and update the h4 to contain this information */
                     var author_info;
                     $.ajax({
