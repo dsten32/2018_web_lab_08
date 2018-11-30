@@ -100,17 +100,35 @@
 
                 /* Replace the partial content of an article with the full article text */
                 function load_full_article() {
-                    /* TODO: Retrieve the `article_id` attribute from the clicked element
+                    /* TODOne: Retrieve the `article_id` attribute from the clicked element
                      * and store the value in a variable */
+                    let article_id =$(this).attr('article_id');
 
-                    /* TODO: Obtain a reference to the paragraph element that will recieve
+                    // console.log($(this).attr('article_id'));
+                    // alert($(this).attr('article_id'));
+
+                    /* TODOne: Obtain a reference to the paragraph element that will recieve
                      * the full article content. This will be a sibling element of the clicked
                      * element. Store this reference in a variable */
+                    let paragraph = $(this).prev().attr('id');
+                    // console.log(paragraph);
+// console.log('https://sporadic.nz/ajax/articles?id='+article_id);
+                    // TODOne: Disable and hide the clicked element as it is no longer needed
+                    $(this).off('click');
+                    $(this).hide();
 
-                    // TODO: Disable and hide the clicked element as it is no longer needed
-
-                    /* TODO: Using the articles endpoint, retrieve the full article content
-                     * of the article that has the id retrieved above. Replace the contents of the
+                    /* TODOne: Using the articles endpoint, retrieve the full article content*/
+                    var article_info;
+                    $.ajax({
+                        url:'https://sporadic.nz/ajax/articles?id='+article_id,
+                        type:'GET',
+                        success:function (msg) {
+                            article_info=msg;
+                            // console.log(author_info.first_name);
+                            $('#'+paragraph).html(article_info.content);
+                        }
+                    })
+                     /* of the article that has the id retrieved above. Replace the contents of the
                      * above referenced paragraph with the contents found in the retrieved data */
                 }
 
@@ -136,26 +154,33 @@
                     let article_title = $('<h3>').text(article.title);
                     article_title.addClass('article-title');
 
-                    /* TODO: Create an h4 element to store the author information. Add
+                    /* TODOne: Create an h4 element to store the author information. Add
                      * the `article-author` class to the element as well as a new attribute
                      * named `author_id` that contains the id of the user that authored the
                      * displayed article */
+                    let article_author = $('<h4>');
+                    article_author.addClass('article-author');
+                    article_author.attr('author_id',article.author_id);
 
                     // Article body
                     let article_body = $('<p>').text(article.content);
                     article_body.addClass('article-body');
+                    article_body.attr('id','article_body_for'+article.id);
 
                     // 'Show full content' button
-                    let article_read_more = $('<div>');
-                    // TODO: Make the `article_read_more` display the text "Show full content"
+                    let article_read_more = $('<div>').text('Show full content');
+                    // TODOne: Make the `article_read_more` display the text "Show full content"
                     article_read_more.addClass('article-read-more');
                     article_read_more.addClass('button');
+                    article_read_more.attr('article_id',article.id);
                     /* TODO: Add a new attribute named `article_id` that contains the id of
                      * the  displayed article */
 
                     // Nest all the elements inside the main article div
                     article_div.append(article_title);
+                    article_div.append(article_author);
                     article_div.append(article_body);
+                    article_div.append(article_read_more);
                     /* TODO: Add the author details and read more button elements to the
                      * `article_div` in the correct order */
 
@@ -168,6 +193,16 @@
 
                     /* TODO: Use the users endpoint to retrieve the full name of the article
                      * author, and update the h4 to contain this information */
+                    var author_info;
+                    $.ajax({
+                        url:'https://sporadic.nz/ajax/users?id='+article.author_id,
+                        type:'GET',
+                        success:function (msg) {
+                            author_info=msg;
+                            // console.log(author_info.first_name);
+                            article_author.text(author_info.first_name + " " + author_info.last_name);
+                        }
+                    })
                 }
 
                 var loadFrom=0;
@@ -191,8 +226,8 @@
                                 loadFrom+=1;
                             }
 
-                            console.log(loadFrom+" "+msg.length);
-                            /* TODO: If there are no more articles to load, disable the
+                            // console.log(loadFrom+" "+msg.length);
+                            /* TODOne: If there are no more articles to load, disable the
                              * `article-load-button` behaviour, and change its color to red */
                             if (msg.length<2) {
                                 $('#article-load-button').off('click');
