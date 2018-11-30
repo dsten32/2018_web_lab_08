@@ -121,6 +121,7 @@
                                         type:'GET',
                                         success:function (msg) {
                                             article_list=msg;
+                                            //fix this bit up so that I get the title corresponding to the article ID i get from the likes array. that seems lik a lot of work.
                                             let article_list_item = $('<li>').text(article_list.title);
                                         }
                                     })
