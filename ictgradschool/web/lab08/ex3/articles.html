@@ -90,7 +90,7 @@
                     let author_info =$(this).attr('author_id');
                     console.log(author_info);
 
-                    /* TODO: Using the users endpoint, retrieve the details of the selected
+                    /* TODOne: Using the users endpoint, retrieve the details of the selected
                      * user and update the elements inside the `user-details` div. Make sure to
                      * translate the F|M gender codes to the literal strings "Female" and "Male" */
                     var full_author_info;
@@ -99,7 +99,6 @@
                         type:'GET',
                         success:function (msg) {
                             full_author_info=msg;
-                            // console.log(author_info.first_name);
                             $('#user-details-first-name').text(full_author_info.first_name);
                             $('#user-details-last-name').text(full_author_info.last_name);
                             if (full_author_info.gender==="F") {
@@ -109,32 +108,33 @@
                             }
                             $('#user-details-liked-articles').empty();
                             var liked_arr;
-                            var article_list;
+                            var article_stuff;
+                            var new_list_item;
                             $.ajax({
                                 url:'https://sporadic.nz/ajax/likes?user='+author_info,
                                 type:'GET',
                                 success:function (msg) {
                                     liked_arr=msg;
-                                    console.log(liked_arr);
-                                    $.ajax({
-                                        url:'https://sporadic.nz/ajax/articles',
-                                        type:'GET',
-                                        success:function (msg) {
-                                            article_list=msg;
-                                            //fix this bit up so that I get the title corresponding to the article ID i get from the likes array. that seems lik a lot of work.
-                                            let article_list_item = $('<li>').text(article_list.title);
-                                        }
-                                    })
-                                    for (var i=0;i<liked_arr.length;i++){
-                                        // console.log(article_info.+liked_arr[i]);
+                                    for (var i = 0; i < liked_arr.length; i++) {
+                                        $.ajax({
+                                            url: 'https://sporadic.nz/ajax/articles?id='+liked_arr[i],
+                                            type: 'GET',
+                                            success:function (msg) {
+                                                article_stuff=msg;
+                                                new_list_item=$('<li>').text(article_stuff.title);
+                                                $('#user-details-liked-articles').append(new_list_item);
+                                            }
+
+                                        })
                                     }
                                 }
-                            })
+
+                                })
 
                         }
                     })
 
-                    /* TODO: Retrieve a list of liked articles from the likes endpoint. Using
+                    /* TODOne: Retrieve a list of liked articles from the likes endpoint. Using
                      * the ids retrieved, make further calls to the articles endpoint to retrieve
                      * the titles of liked articles. Create new li elements for each article title
                      * and append these to the `user-details-liked-articles` list */
