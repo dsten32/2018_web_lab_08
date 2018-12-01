@@ -36,28 +36,44 @@ $(document).ready(function () {
         }
     });
 
-    //set up and intialise variable for tanslating the dolphins.
+    //set up and initialise variable for translating the dolphins. mistake
 
-    var dScale=1,dTransX=0,dTransY=0, dTransZ=0;
+    var dScale=1,dTransX=0,dTransY=0;
 
     function setTransformState(){
-
+        $('.dolphin').each(function () {
+            $(this).css('transform','translateX('+dTransX+'%) translateY('+dTransY+'%) scale('+dScale+')');
+            console.log("hiya") //.attr('style','transformX('+dTransX+'px)');
+            //
+        });
     }
 
     $('[id$=-control]').change(function () {
-        console.log("slider "+ $(this).attr('id') +" changed");
+        console.log("slider " + $(this).attr('id') + " changed");
         console.log($(this).val());
-        if($(this).attr('id')=='horizontal-control'){
-            dTransX=$(this).val();
-        } else if($(this).attr('id')=='vertical-control'){
-            dTransY=$(this).val();
-        } else if($(this).attr('id')=='size-control'){
-            dTransZ=$(this).val();
-        };
-        console.log("transX: "+dTransX);
-        console.log("transY: "+dTransY);
-        console.log("transZ(size): "+dTransZ);
+        if ($(this).attr('id') == 'horizontal-control') {
+            dTransX = $(this).val();
+        } else if ($(this).attr('id') == 'vertical-control') {
+            dTransY = $(this).val();
+        } else if ($(this).attr('id') == 'size-control') {
+            dScale = $(this).val();
+        }
+        ;
+
+        if (dScale < 0) {
+            dScale = 1 - Math.abs(dScale) / 100;
+        } else if (dScale == 0) {
+            dScale = 1;
+        } else if (dScale==2){
+            dScale=1.05;
+        } else if (dScale>1){
+            dScale = Math.log(dScale);
+        }
+        console.log("dtransX: "+ dTransX);
+        console.log("dtransY: "+ dTransY);
+        console.log("dScale: "+ dScale);
+        setTransformState();
         //$('[id^=dolphin]').attr('style','')  //.style.transform = "translateX(100px)";
     })
 
-});
+})
